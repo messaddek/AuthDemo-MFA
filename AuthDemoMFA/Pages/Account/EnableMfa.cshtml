@@ -1,0 +1,46 @@
+﻿@page
+@using AuthDemoMFA.Pages.Account
+@model EnableMfaModel
+@{
+    ViewData["Title"] = "Enable Two-Factor Authentication";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Input.SecretKey" />
+            <input type="hidden" asp-for="Input.QrCodeUri" />
+
+            <div class="mb-4">
+                <p>To use an authenticator app:</p>
+                <ol>
+                    <li>Download a two-factor authenticator app like Microsoft Authenticator, Google Authenticator, or
+                        any other TOTP app</li>
+                    <li>Scan the QR Code below or manually enter this key: <code>@Model.Input.SecretKey</code></li>
+                    <li>Enter the verification code from the app below</li>
+                </ol>
+            </div>
+
+            <div class="mb-4">
+                <div class="qr-code">
+                    <img src="@Model.Input.QrCodeBase64" alt="QR Code" style="width:200px; height:200px;" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.VerificationCode"></label>
+                <input asp-for="Input.VerificationCode" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Input.VerificationCode" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Verify and Enable</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

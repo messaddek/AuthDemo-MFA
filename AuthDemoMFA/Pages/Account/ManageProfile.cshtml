@@ -1,0 +1,50 @@
+﻿@page
+@model AuthDemoMFA.Pages.Account.ManageProfileModel
+@{
+    ViewData["Title"] = "Profile Management";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Security Settings</h4>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h5 class="mb-1">Password</h5>
+                        <p class="text-muted mb-0">Change your account password</p>
+                    </div>
+                    <a asp-page="./ChangePassword" class="btn btn-primary">Change Password</a>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">Two-Factor Authentication</h5>
+                        <p class="text-muted mb-0">
+                            @if (Model.CurrentUser?.IsMfaEnabled ?? false)
+                            {
+                                <span class="text-success">✓ Enabled</span>
+                            }
+                            else
+                            {
+                                <span>Not enabled</span>
+                            }
+                        </p>
+                    </div>
+                    @if (Model.CurrentUser?.IsMfaEnabled ?? false)
+                    {
+                        <a asp-page="./ManageMfa" class="btn btn-outline-primary">Manage 2FA</a>
+                    }
+                    else
+                    {
+                        <a asp-page="./EnableMfa" class="btn btn-primary">Enable 2FA</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
